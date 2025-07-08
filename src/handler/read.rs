@@ -1,6 +1,6 @@
 use actix_web::{get, web, HttpResponse, Responder};
 use sea_orm::{EntityTrait, DatabaseConnection, QueryFilter, ColumnTrait};
-use crate::entity::{comm, post};
+use crate::entity::{comm, post, user};
 
 // метод find().all() выводит все данные из выбранной таблицы
 #[get("/posts")]
@@ -67,4 +67,35 @@ pub async fn get_post_with_comments(
         comments: comment_dtos,
     };
     HttpResponse::Ok().json(result)
+}
+
+#[get("/users")]
+pub async fn user_info_all(
+    db: web::Data<DatabaseConnection>
+)-> impl Responder{
+    match user::Entity::find().all(db.get_ref()).await {
+        Ok(users)=>HttpResponse::Ok().json(users),
+        Err(err)=> {
+            eprintln!("Error user get: {:?}",err);
+            HttpResponse::InternalServerError().body("Error featching users") }
+    }
+}
+
+#[get("/users/{id}")]
+pub async fn user_info_id(
+    db: web::Data<DatabaseConnection>,
+    path: web::Path<i32>
+)->impl Responder{
+    let user_id= path.into_inner();
+    match user::Entity::find_by_id(user_id)
+        .one(db.get_ref())
+        .await
+    {
+     Ok(Some(user))=>HttpResponse::Ok().json(user),
+     Ok(None)=> HttpResponse::NotFound().body("User not found"),
+     Err(err)=>{
+         eprintln!("DB error : {:?}",err);
+         HttpResponse::InternalServerError().body("Error fetching user")
+     }
+    }
 }
