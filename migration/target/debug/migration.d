@@ -1,0 +1,1 @@
+C:\Users\Кирилл\RustroverProjects\novai-praktika\DB_todo\migration\target\debug\migration.exe: C:\Users\Кирилл\RustroverProjects\novai-praktika\DB_todo\migration\src\lib.rs C:\Users\Кирилл\RustroverProjects\novai-praktika\DB_todo\migration\src\m20250701_070609_Todo.rs C:\Users\Кирилл\RustroverProjects\novai-praktika\DB_todo\migration\src\main.rs

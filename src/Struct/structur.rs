@@ -34,3 +34,9 @@ pub struct PostWithComments {
     pub user_id: i32,
     pub comments: Vec<CommentDTO>,
 }
+
+#[derive(Deserialize)]
+pub struct UpdatePostDTO{
+    pub title: Option<String>,
+    pub text: Option<String>,
+}

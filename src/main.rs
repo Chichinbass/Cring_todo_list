@@ -7,8 +7,9 @@ use migration::{Migrator,MigratorTrait};
 use actix_web::{web, App, HttpServer, Responder};
 
 use handler::create::{create_post,create_user,create_comm};
-use handler::read::{get_all_posts,get_id_post};
-use crate::handler::read::get_post_with_comments;
+use handler::read::{get_all_posts,get_id_post,get_post_with_comments, user_info_all, user_info_id};
+use handler::delete::{delete_post,user_delete};
+use handler::put::update_post;
 
 async fn hello() -> impl Responder {
     "Hello from Actix + SeaORM!"
@@ -29,6 +30,11 @@ async fn main() -> std::io::Result<()> {
             .service(get_all_posts)
             .service(get_id_post)
             .service(get_post_with_comments)
+            .service(user_info_all)
+            .service(user_info_id)
+            .service(delete_post)
+            .service(user_delete)
+            .service(update_post)
     })
         .bind(("127.0.0.1",8080))?
         .run()
